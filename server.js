@@ -3,13 +3,13 @@ const mysql = require("mysql");
 const cors = require("cors");
 const app = express();
 
-//Middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// MySQL Connection
-//MAMP
-const connection = mysql.createConnection({
+// MySQL Connection Pool
+const pool = mysql.createPool({
+  connectionLimit: 10,
   host: "localhost",
   user: "root",
   password: "root",
@@ -17,18 +17,11 @@ const connection = mysql.createConnection({
   port: "3306",
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.log("error connencting to MySQL", err);
-  }
-  console.log("MySQL successfully connected");
-});
-
 // CREATE ROUTES
 app.post("/user/create", (req, res) => {
   const { name, email, password } = req.body;
   try {
-    connection.query(
+    pool.query(
       "INSERT INTO users(email, fullname, password) VALUES(?,?,?)",
       [email, name, password],
       (err, results, fields) => {
@@ -47,12 +40,12 @@ app.post("/user/create", (req, res) => {
   }
 });
 
-//READ
+// READ
 app.get("/user", (req, res) => {
   try {
-    connection.query("SELECT * FROM users", (err, result, fields) => {
+    pool.query("SELECT * FROM users", (err, result, fields) => {
       if (err) {
-        res.status(400).json({ massage: err });
+        res.status(400).json({ message: err });
         return;
       }
       res.json(result);
@@ -63,11 +56,11 @@ app.get("/user", (req, res) => {
   }
 });
 
-//READ single users from db
+// READ single user from db
 app.get("/user/:id", (req, res) => {
   const id = req.params.id;
   try {
-    connection.query(
+    pool.query(
       "SELECT * FROM users WHERE users.id = ?",
       [id],
       (err, result, fields) => {
@@ -87,12 +80,12 @@ app.get("/user/:id", (req, res) => {
   }
 });
 
-//UPDATE data
+// UPDATE data
 app.put("/user/edit/:id", async (req, res) => {
   const id = req.params.id;
   const { password, fullname, email } = req.body;
   try {
-    connection.query(
+    pool.query(
       "UPDATE users SET password = ?, fullname = ?, email = ? WHERE id = ?",
       [password, fullname, email, id],
       (err, result, fields) => {
@@ -109,11 +102,11 @@ app.put("/user/edit/:id", async (req, res) => {
   }
 });
 
-//UPDATE data
+// DELETE data
 app.delete("/user/delete/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    connection.query(
+    pool.query(
       "DELETE FROM users WHERE users.id = ?",
       [id],
       (err, result, fields) => {
@@ -122,7 +115,7 @@ app.delete("/user/delete/:id", async (req, res) => {
           return;
         }
         if (result.affectedRows === 0) {
-          res.status(404).json({ massage: "Not found user" });
+          res.status(404).json({ message: "Not found user" });
           return;
         }
         res.json({ message: "User is deleted successfully" });
@@ -135,4 +128,4 @@ app.delete("/user/delete/:id", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("port3000"));
+app.listen(3000, () => console.log("port 3000"));
