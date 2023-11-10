@@ -52,7 +52,7 @@ app.get("/user", (req, res) => {
   try {
     connection.query("SELECT * FROM users", (err, result, fields) => {
       if (err) {
-        res.status(400).send();
+        res.status(400).json({ massage: err });
         return;
       }
       res.json(result);
