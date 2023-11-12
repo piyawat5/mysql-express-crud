@@ -8,12 +8,9 @@ app.use(cors());
 app.use(express.json());
 
 // MySQL Connection Pool
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "mysql_express",
-});
+const pool = mysql.createPool(
+  `mysql://root:FHHcHCbEcGDCB51GCD6dhfCEBc15bHGf@viaduct.proxy.rlwy.net:19267/railway`
+);
 
 // CREATE ROUTES
 app.post("/user/create", (req, res) => {
