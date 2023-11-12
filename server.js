@@ -9,12 +9,10 @@ app.use(express.json());
 
 // MySQL Connection Pool
 const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: "127.0.0.1",
+  host: "localhost",
   user: "root",
   password: "root",
   database: "mysql_express",
-  port: "3306",
 });
 
 // CREATE ROUTES
