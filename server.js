@@ -38,7 +38,7 @@ app.post("/user/create", (req, res) => {
 // READ
 app.get("/user", (req, res) => {
   try {
-    pool.query("SELECT * FROM users", (err, result, fields) => {
+    pool.query("SELECT * FROM account", (err, result, fields) => {
       if (err) {
         res.status(400).json({ message: err });
         return;
