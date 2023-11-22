@@ -9,8 +9,10 @@ app.use(express.json());
 
 // MySQL Connection Pool
 const pool = mysql.createPool(
-  `mysql://root:FHHcHCbEcGDCB51GCD6dhfCEBc15bHGf@viaduct.proxy.rlwy.net:19267/railway`
+  `mysql://ud44w24inpwabsvu:fhJlyKBJtoVIWrsBJCKT@by5zp2lbxswxdyumrzug-mysql.services.clever-cloud.com:3306/by5zp2lbxswxdyumrzug`
 );
+
+// `mysql://root:FHHcHCbEcGDCB51GCD6dhfCEBc15bHGf@viaduct.proxy.rlwy.net:19267/railway`
 
 // CREATE ROUTES
 app.post("/user/create", (req, res) => {
@@ -38,7 +40,7 @@ app.post("/user/create", (req, res) => {
 // READ
 app.get("/user", (req, res) => {
   try {
-    pool.query("SELECT * FROM account", (err, result, fields) => {
+    pool.query("SELECT * FROM Products", (err, result, fields) => {
       if (err) {
         res.status(400).json({ message: err });
         return;
