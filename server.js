@@ -9,9 +9,10 @@ app.use(express.json());
 
 // MySQL Connection Pool
 const pool = mysql.createPool(
-  `mysql://root:FHHcHCbEcGDCB51GCD6dhfCEBc15bHGf@viaduct.proxy.rlwy.net:19267/railway`
+  "mysql://sql12664144:svQUQ15FgM@sql12.freesqldatabase.com:3306/sql12664144"
 );
 
+// `mysql://root:FHHcHCbEcGDCB51GCD6dhfCEBc15bHGf@viaduct.proxy.rlwy.net:19267/railway`
 // CREATE ROUTES
 app.post("/user/create", (req, res) => {
   const { name, email, password } = req.body;
